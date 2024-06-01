@@ -20,30 +20,25 @@ const runDataTable = () => {
   });
 };
 const token = localStorage.getItem("adminToken");
-
-//Get Vote
-const getData = async () => {
+//تصويتات خاصة بالأدمن و بقدر يضيف و يحذف عليها 
+const displayVote = async () =>{
   const token = localStorage.getItem("adminToken");
   const headers = { Authorization: `haneen__${token}` };
   const { data } = await axios.get(
-    "https://vote-roan.vercel.app/vote/getvotes",
+    `https://vote-roan.vercel.app/vote/getvotesadmin`,
     { headers }
   );
   console.log(data);
   return data.votes;
-};
+}
 //Display Vote
 const displayData = async () => {
-  const data = await getData();
+  const data = await displayVote();
   const result = data
     .map(
       (d) =>
         `<tr>
-          <td>${d.voteName}</td>
-          <td>${d.VotingStatus}</td>
-          <td>${d.description}</td>
-          <td>${d.StartDateVote}</td>
-          <td>${d.EndDateVote}</td>    
+          <td>${d.voteName}</td> 
           <td class=" align-items-center justify-content-center" style="column-gap=10px">
           
           <a href="./addCandidateToVote.html?id=${d._id}" data-toggle="tooltip" data-placement="top" title="add Candidate To Vote">
@@ -64,6 +59,10 @@ const displayData = async () => {
            <a href="./updateVoteStatuse.html?id=${d._id}" data-toggle="tooltip" data-placement="top" title="update Vote Statuse">
            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M256 48a208 208 0 1 1 0 416 208 208 0 1 1 0-416zm0 464A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c-9.4 9.4-9.4 24.6 0 33.9l47 47-47 47c-9.4 9.4-9.4 24.6 0 33.9s24.6 9.4 33.9 0l47-47 47 47c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-47-47 47-47c9.4-9.4 9.4-24.6 0-33.9s-24.6-9.4-33.9 0l-47 47-47-47c-9.4-9.4-24.6-9.4-33.9 0z"/></svg>
            </a>
+
+           <a href="./addUserToVote.html?id=${d._id}" data-toggle="tooltip" data-placement="top" title="add User To Vote">
+           <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M96 128a128 128 0 1 1 256 0A128 128 0 1 1 96 128zM0 482.3C0 383.8 79.8 304 178.3 304h91.4C368.2 304 448 383.8 448 482.3c0 16.4-13.3 29.7-29.7 29.7H29.7C13.3 512 0 498.7 0 482.3zM504 312V248H440c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V136c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H552v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+        </a>
           </td>
           </tr>
           
@@ -74,19 +73,79 @@ const displayData = async () => {
   document.querySelector(".data").innerHTML += result;
   runDataTable();
 };
+//تصويتات الكل يشوفها 
+const getVote = async () =>{
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    `https://vote-roan.vercel.app/vote/getvotes`,
+    { headers }
+  );
+  console.log(data);
+  return data.votes;
+}
+const displayDataEveryOne = async () => {
+  const data = await getVote();
+  const result = data
+    .map(
+      (d) =>
+        `<tr>
+          <td>${d.voteName}</td> 
+          <td>${d.VotingStatus}</td>
+          <td>${d.description}</td>
+          <td>${d.StartDateVote}</td>
+          <td>${d.EndDateVote}</td>
+
+    
+          </tr>
+          
+          `
+    )
+    .join("");
+
+  document.querySelector(".data").innerHTML += result;
+  runDataTable();
+};
+//getData admin
+const getData = async () => {
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    "https://vote-roan.vercel.app/Admin/getAdmin",
+    { headers }
+  );
+  console.log(data);
+  return data.Admins;
+};
+
+const displayId = async () =>{
+  const data = await getData();
+  const result = data.map((d)=>
+
+    `
+    <option value="${d._id}"> ${d.userName} </option>
+    `
+  ).join('');
+  document.querySelector(".type-js").innerHTML +=result;
+}
+
 //Create Vote
 const addVote = document.querySelector(".submit");
 if (addVote) {
+  
   addVote.addEventListener("submit", async function (e) {
     e.preventDefault();
     const elements = e.target.elements;
     const token = localStorage.getItem("adminToken");
+    
+    console.log(token);
     const formData = new FormData();
     formData.append("voteName", elements["voteName"].value);
     formData.append("VotingStatus", elements["VotingStatus"].value);
     formData.append("description", elements["description"].value);
     formData.append("StartDateVote", elements["StartDateVote"].value);
     formData.append("EndDateVote", elements["EndDateVote"].value);
+    formData.append("AdminID", elements["AdminID"].value);
     formData.append("image", elements["image"].files[0]);
 
     try {
@@ -96,8 +155,13 @@ if (addVote) {
         formData,
         { headers }
       );
+      console.log(data);
       if (data.message == "success") {
-        alert("تم اضافة هذا التصويت بنجاح");
+        Swal.fire({
+          text: "vote added seccesfully .",
+          icon: "success",
+        });
+        location.href ="./index.html";
       }
     } catch (error) {
       console.log(error);
@@ -159,7 +223,12 @@ const addCanToVote = async () => {
             { headers }
           );
            console.log(data);
-           alert("تم اضافة هذا المرشح بنجاح");
+           if(data.message == "Candidate added to vote successfully"){
+            Swal.fire({
+              text: "Candidate added seccesfully to the Vote .",
+              icon: "success",
+            });
+           }
         } catch (error) {
           console.log(error);
           alert("حدث خطأ أثناء أضافة هذا المرشح");
@@ -215,7 +284,12 @@ const removeCan = async () => {
             { headers }
           );
            console.log(data);
-           alert("تم حذف هذا المرشح بنجاح");
+           if(data.message == "Candidate removed from vote successfully"){
+            Swal.fire({
+              text: "Candidate removed seccesfully to the Vote .",
+              icon: "success",
+            });
+           }
         } catch (error) {
           console.log(error);
           alert("حدث خطأ أثناء حذف هذا المرشح");
@@ -249,7 +323,6 @@ const postCan = async () => {
     console.error("حدث خطأ أثناء عرض المرشحين:", error.message);
   }
 };
-
 const getPost = async (id) => {
   const token = localStorage.getItem("adminToken");
   const { data } = await axios.get(
@@ -278,8 +351,14 @@ const updateStatus = async (id) => {
           data,
           { headers }
         );
-       
-        alert("تم تحديث حالة التصويت بنجاح");      }
+       console.log(response);
+        if(response.data.message == "Voting has been successfully deactivated"){
+          Swal.fire({
+            text: "update Status seccesfully .",
+            icon: "success",
+          });
+         }
+             }
         
         catch (error) {
         alert("حدث خطأ أثناء تحديث حالة التصويت");      }
@@ -348,7 +427,6 @@ const getpreviousvotes = async () => {
       console.log(error);
   }
 };
-
 const displayDataPreVote = async () => {
   const data = await getpreviousvotes();
   const uniqueUserNames = [...new Set(data.map(d => d.userName))]; // استخراج الأسماء الفريدة
@@ -366,11 +444,415 @@ const displayDataPreVote = async () => {
   document.querySelector(".data").innerHTML += result;
   runDataTable();
 };
+const getRole = async () => {
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    `https://vote-roan.vercel.app/Admin/role`,
+    { headers }
+  );
+ 
+  return data.role;
+};
+//auth#2
+const authorization = async () =>{
+  const role = await getRole();
+  document.querySelector(".sama").innerHTML = `
+  
+  ${role == 'SuperAdmin'?`
+  <li class="nav-item">
+      <a href="./../profile/supreAdminProfile.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>My Profile</p>
+      </a>
+    </li>
+  <li class="nav-item">
+      <a href="./../admin/create.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Add Admin</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="./../admin/index.html" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Show Admins</p>
+      </a>
+    </li>
+        <li class="nav-item">
+<a href="./../votes/create.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Add Vote</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li>
+
+<li class="nav-item">
+  <a href="./../admin/deletedAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show admin was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+
+  `:''}
+  ${role == 'Admin'?`
+
+  <li class="nav-item">
+  <a href="./../profile/adminProfile.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li>
+
+    <li class="nav-item">
+      <a href="./../admin/withdrawals.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>withdrawals Candidate</p>
+      </a>
+    </li>    <li class="nav-item">
+
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li><li class="nav-item">
+  <a href="./../candidate/create.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Add Candidate</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/index.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate</p>
+  </a>
+</li>
+  
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+ <li class="nav-item">
+  <a href="./../user/index.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show and Accept Users</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/deletedCandidate.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/voteAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Resposible</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+  `:''}
+
+
+  ${role == 'Candidate'?`
+  <li class="nav-item">
+  <a href="./../profile/profile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p> My Profile</p>
+  </a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+  
+              <li class="nav-item">
+                <a href="./../candidate/Withdrawal.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdrawal request</p>
+                </a>
+              </li>
+<li class="nav-item">
+  <a href="./../post/createPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/parVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote I participated in</p>
+  </a>
+</li>
+
+  `:''}
+
+  ${role == 'User'?`
+  <li class="nav-item">
+  <a href="./../profile/UserProfile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li> 
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+
+
+  
+
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../user/activeVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Voting</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/preVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Parti In</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+  `:''}
+ 
+
+
+
+
+  `;};
+const CreateExcel = document.querySelector(".createExcelCan");
+if (CreateExcel) {
+  CreateExcel.addEventListener("submit", function(e) {
+    e.preventDefault();
+    createWithExcel(e);
+  });
+}
+const createWithExcel = async (e) => {
+  const token = localStorage.getItem("adminToken");
+  const elements = e.target.elements;
+ 
+  const formData = new FormData();  
+  formData.append("file", elements["file"].files[0]);
+  
+
+  try {
+    const { data } = await axios.post(
+      `https://vote-roan.vercel.app/vote/uploadExcelCandidateToVote`,
+      formData,
+      { headers: { Authorization: `haneen__${token}` } }
+    );
+    console.log(data);
+    if(data.message == "Candidates processed successfully"){
+      Swal.fire({
+        text: "Candidate added seccesfully to the Vote .",
+        icon: "success",
+      });
+     }
+  } catch (error) {
+    console.error(error);
+  }
+};
+//برجع المستخدمين الأكتيف
+const getUser = async () => {
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    "https://vote-roan.vercel.app/Admin/getUsersActive",
+    { headers }
+  );
+  console.log(data);
+  return data.Users;
+};
+//بختار اسم المستخدم اللي بده يضيفه على التصويت من القائمة  
+const addUserToVote = async () => {
+  try {
+    const search = new URLSearchParams(window.location.search);
+    const voteId = search.get("id");
+
+    if (!voteId) {
+      console.error("لم يتم توفير id التصويت في عنوان الصفحة.");
+      return;
+    }
+
+    const voteData = await getPost(voteId);
+
+    if (!voteData.subvote ) {
+      console.error("لا يوجد بيانات تصويت صالحة.");
+      return;
+    }
+    console.log(voteData.subvote);
+    const voteName = voteData.subvote.voteName;
+        document.querySelector(".nameVote").innerHTML += voteName;
+
+    const data = await getUser();
+    const options = data.map((candidate) => `<option value=${candidate.userName}>${candidate.userName}</option>`);
+    const result = options.join("");
+    document.querySelector(".addCandidateName").innerHTML += result;
+
+    const addCan = document.querySelector(".submitCanToVote");
+    if (addCan) {
+      addCan.onsubmit = async function (e) {
+        const elements = e.target.elements;
+        const token = localStorage.getItem("adminToken");
+        e.preventDefault();
+        const userName = elements["userName"].value;
+        console.log(userName);
+        console.log(voteName);
+
+        try {
+          const headers = { Authorization: `haneen__${token}` };
+          const { data } = await axios.post(
+            `https://vote-roan.vercel.app/vote/addExistingUserToVote`,
+            { voteName, userName },
+            { headers }
+          );
+           console.log(data);
+           if(data.message == "User added to vote successfully"){
+            Swal.fire({
+              text: "User added to vote successfully.",
+              icon: "success",
+            });
+
+           }
+        } catch (error) {
+          console.log(error);
+          alert("حدث خطأ أثناء أضافة هذا المستخدم");
+        }
+      };
+    }
+  } catch (error) {
+    console.error(error.message);
+   
+  }
+};
+const CreateExcelUser = document.querySelector(".createExcelUser");
+if (CreateExcelUser) {
+  CreateExcelUser.addEventListener("submit", function(e) {
+    e.preventDefault();
+    createWithExcelUser(e);
+  });
+}
+const createWithExcelUser = async (e) => {
+  const token = localStorage.getItem("adminToken");
+  const elements = e.target.elements;
+ 
+  const formData = new FormData();  
+  formData.append("file", elements["file"].files[0]);
+  
+
+  try {
+    const { data } = await axios.post(
+      `https://vote-roan.vercel.app/vote/uploadExcelUserToVote`,
+      formData,
+      { headers: { Authorization: `haneen__${token}` } }
+    );
+    console.log(data);
+    if(data.message == "User processed successfully"){
+      Swal.fire({
+        text: "User added seccesfully to the Vote .",
+        icon: "success",
+      });
+     }
+  } catch (error) {
+    console.error(error);
+  }
+};
 //log out
 const btn = document.querySelector(".logout");
+if(btn){
 btn.addEventListener("click" ,function(){
 localStorage.removeItem('adminToken');
-location.href='./../auth/index.html';
+location.href='./../auth/login.html';
 
-});
-
+});}

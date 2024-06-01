@@ -1,0 +1,56 @@
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color:#9966d191;
+}
+.card-primary:not(.card-outline)>.card-header {
+    background-color:#9966d191;
+}
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    color: #fff;
+    background-color:#9966d191;
+    
+}
+.card-primary.card-outline {
+    border-top: 3px solid #9966d191;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #9966d191;
+    border-color: #9966d191;
+    box-shadow: none;
+}
+a {
+    color: #9a66d1;
+    text-decoration: none;
+    background-color: transparent;
+}
+.active>.page-link, .page-link.active {
+    z-index: 3;
+    color: #9966d191;
+    background-color:#9966d191;
+    border-color:#9966d191;
+}
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color:#9966d191 ;
+    border-color: #9966d191;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #9966d191 !important;
+    border-color: #9966d191 !important;
+    box-shadow: none;
+}
+.card-primary.card-outline {
+    border-top: 3px solid #9966d191 !important;
+}
+.userr{
+    color:#9a66d1  ;
+}
+.passs{
+    color:#9a66d1  ;
+
+}
+.card-primary:not(.card-outline)>.card-header {
+    background-color: #9a66d1 !important; 
+}

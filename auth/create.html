@@ -14,15 +14,10 @@
   <link rel="stylesheet" href="./../assets/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
-
+  <link rel="stylesheet" href="./../assets/css/base.css">
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link rel="stylesheet" href="./../assets/css/base.css">
 
-  <script src="./../auth/index.js"></script>
-  <script>
-    checkUath();
-  </script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -34,7 +29,7 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-      
+     
     </ul>
 
     <!-- Right navbar links -->
@@ -50,28 +45,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="" class="img-circle elevation-2 userImage" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block userName"> </a>
-        </div>
-      </div>
+    
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sidebar Menu -->
+  
       <nav class="mt-2">
         <ul
           class="nav nav-pills nav-sidebar flex-column sama"
@@ -84,6 +60,7 @@
         
         </ul>
       </nav>
+      
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -100,8 +77,8 @@
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Vote</a></li>
-              <li class="breadcrumb-item active">add Candidate to vote</li>
+              <li class="breadcrumb-item" style="color: #9a66d1 !important;"><a href="#">user</a></li>
+              <li class="breadcrumb-item active" style="color: #9a66d1 ;">add User</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -117,20 +94,69 @@
                 <!-- general form elements -->
                 <div class="card card-primary">
                   <div class="card-header">
-                    <h3 class="card-title">add Candidate To Vote</h3>
+                    <h3 class="card-title">add User</h3>
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form class="submitCanToVote">
+                  <form class="submit">
                     <div class="card-body">
                       <div class="form-group">
-                        
-                        <p style="font-weight: bolder;" class="nameVote">Name Vote : </p>
-                        <label for="name">Choose a Candidate Name :</label>
-                        <select class="addCandidateName" id="name" name="userName">
-                            <option value="" selected>إختر مرشحاً للأنضمام لهذا التصويت</option>
-                        </select>
-                        
+                        <ul class="err d-none">
+
+                        </ul>
+                        <label for="exampleInputName">Name</label>
+                        <input type="text" class="form-control" id="exampleInputName" name="userName" placeholder="Enter name">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Confirm Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" name="Cpassword" placeholder="Password">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputcardnumber">cardnumber</label>
+                        <input type="number" class="form-control" id="exampleInputcardnumber" name="cardnumber" placeholder="Cardnumber">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPhoneNumber">Phone</label>
+                        <input type="number" class="form-control" id="exampleInputPhoneNumber"name="phone" placeholder="Phone">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputaddress">address</label>
+                        <input type="text" class="form-control" id="exampleInputaddress" name="address" placeholder="Address">
+                      </div>
+                      <div class="form-group">
+                        <label for="SelectGender">Gender </label><br>
+                        <input type="radio" name="gender" value="Male"><label>Male</label><br>
+                        <input type="radio"  name="gender" value="Female"><label>Female</label>
+
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputFile">File input</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="exampleInputFile" name="image">
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text">Upload</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+    
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
@@ -147,33 +173,6 @@
     </div>
     <!-- /.content -->
   </div>
-  <div class="row">
-    <h2>add Candidate To Vote</h2>
-    <div class="col-md-12">
-        <!-- general form elements -->
-        <div class="card card-primary">
-          <!-- form start -->
-          <form class="createExcelCan">
-
-              <div class="form-group">
-                <label for="name"></label>
-                <input type="file" class="form-control" name="file">
-              </div>
-            
-            
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
-        <!-- /.card -->
-
-        
-      </div>
-  <!-- /.col-md-6 -->
-</div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
@@ -186,7 +185,7 @@
   </aside>
   <!-- /.control-sidebar -->
 
- 
+
 </div>
 <!-- ./wrapper -->
 
@@ -200,14 +199,11 @@
 <!-- AdminLTE App -->
 <script src="./../assets/js/adminlte.min.js"></script>
 
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./index.js"></script>
 
-<script>
-    addCanToVote()
-    authorization();
 
-</script>
 
 </body>
 </html>

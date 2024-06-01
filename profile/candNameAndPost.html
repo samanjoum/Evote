@@ -16,16 +16,16 @@
   <link rel="stylesheet" href="./../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="./../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-
   <link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
+
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="./../assets/css/base.css">
 
-  <script src="./../auth/index.js"></script>
-  <script>
-    checkUath();
-  </script>
+<script src="./../auth/index.js"></script>
+<script>
+  checkUath();
+</script>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -36,10 +36,11 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-     
+      
     </ul>
 
-   
+    <!-- Right navbar links -->
+ 
   </nav>
   <!-- /.navbar -->
 
@@ -75,17 +76,21 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul
-          class="nav nav-pills nav-sidebar flex-column sama"
+          class="nav nav-pills nav-sidebar flex-column sama "
           data-widget="treeview"
           role="menu"
           data-accordion="false"
         >
           <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
-         
+           <li class="nav-item">
+            <a href="#" class="logout nav-link">
+                <i class="nav-icon far fa-image"></i>
+                <p style=" color: white; display: inline;">logout</p>
+            </a>
+        </li>
         </ul>
       </nav>
-     
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -102,8 +107,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">candidate</a></li>
-              <li class="breadcrumb-item active">show</li>
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">Candidate profile</li>
             </ol>
           </div>
         </div>
@@ -119,20 +124,14 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">show candidate</h3>
+                <h3 class="card-title">Candidate profile</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="candidateTable" class="table table-bordered table-striped">
+                <table id="voteTable" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
+                    <th>Candidate Name</th>
                     <th>action</th>
                   </tr>
                   </thead>
@@ -141,13 +140,7 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
+                    <th>Candidate Name</th>
                     <th>action</th>
                   </tr>
                   </tfoot>
@@ -165,7 +158,8 @@
     </section>
     <!-- /.content -->
   </div>
- 
+  <!-- /.content-wrapper -->
+
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -197,11 +191,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="./../assets/js/demo.js"></script>
 
-<script src="./../assets/plugins//sweetalert2/sweetalert2.min.js"></script>
+<link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
 <script src="./index.js"></script>
-
 <script>
-displayData();
+displayCandidateName();
 authorization();
 </script>
 

@@ -21,7 +21,6 @@
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="./../assets/css/base.css">
-
   <script src="./../auth/index.js"></script>
   <script>
     checkUath();
@@ -36,17 +35,18 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-     
+      
     </ul>
 
-   
+    <!-- Right navbar links -->
+    
   </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    
+   
 
     <!-- Sidebar -->
     <div class="sidebar">
@@ -82,7 +82,7 @@
         >
           <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
-         
+        
         </ul>
       </nav>
      
@@ -98,12 +98,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
+            
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">candidate</a></li>
-              <li class="breadcrumb-item active">show</li>
+              <li class="breadcrumb-item"><a href="#">admin</a></li>
+              <li class="breadcrumb-item active">Responsible as an admin</li>
             </ol>
           </div>
         </div>
@@ -119,21 +119,14 @@
 
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">show candidate</h3>
+                <h3 class="card-title">Responsible as an admin</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="candidateTable" class="table table-bordered table-striped">
+                <table id="adminTable" class="table table-bordered table-striped">
                   <thead>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
-                    <th>action</th>
+                    <th>The votes for which you are responsible as an admin</th>
                   </tr>
                   </thead>
                   <tbody class="data">
@@ -141,14 +134,8 @@
                   </tbody>
                   <tfoot>
                   <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
-                    <th>action</th>
+                    <th>The votes for which you are responsible as an admin</th>
+                    
                   </tr>
                   </tfoot>
                 </table>
@@ -165,6 +152,7 @@
     </section>
     <!-- /.content -->
   </div>
+  <!-- /.content-wrapper -->
  
 
   <!-- Control Sidebar -->
@@ -201,9 +189,11 @@
 <script src="./index.js"></script>
 
 <script>
-displayData();
+postVo();
 authorization();
 </script>
+
+
 
 
 

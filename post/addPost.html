@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+ 
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -9,15 +10,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="./../assets/plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="./../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="./../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="./../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
-
   <link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
+
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="./../assets/css/base.css">
@@ -29,6 +26,7 @@
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
+
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -36,21 +34,21 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-     
+    
     </ul>
 
-   
+
   </nav>
   <!-- /.navbar -->
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    
+   
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
+      <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="" class="img-circle elevation-2 userImage" alt="User Image">
@@ -82,10 +80,10 @@
         >
           <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
-         
+        
         </ul>
+      
       </nav>
-     
       <!-- /.sidebar-menu -->
     </div>
     <!-- /.sidebar -->
@@ -94,137 +92,123 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+    <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>DataTables</h1>
-          </div>
+            
+          </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">candidate</a></li>
-              <li class="breadcrumb-item active">show</li>
+              <li class="breadcrumb-item"><a href="#">post</a></li>
+              <li class="breadcrumb-item active">add post</li>
             </ol>
-          </div>
-        </div>
+          </div><!-- /.col -->
+        </div><!-- /.row -->
       </div><!-- /.container-fluid -->
-    </section>
+    </div>
+    <!-- /.content-header -->
 
     <!-- Main content -->
-    <section class="content">
+    <div class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-           
+            <div class="col-md-12">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">add New Post</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form class="submit">
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="exampleInputFile">image</label>
+                        <div class="input-group">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="exampleInputFile" name="image" >
+                            <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                          </div>
+                          <div class="input-group-append">
+                            <span class="input-group-text">Upload</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <ul class="err d-none">
 
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">show candidate</h3>
+                        </ul>
+                        <label for="exampleInputtitle">title</label>
+                        <input type="text" class="form-control" id="exampleInputtitle" name="title" placeholder="Enter title">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputcaption">Caption</label>
+                        <input type="text" class="form-control" id="exampleInputcaption" name="caption" placeholder="Enter caption">
+                      </div>
+             
+                    <div class="form-group">
+                      <label for="addPost">Vote Name</label>
+                      <select class="createPost form-select" id="addPost" name="voteName">
+                        <option value="" selected>إختر أسم التصويت</option>
+                    </select>
+                    </div>
+                     
+                     
+                     
+                    </div>
+                    <!-- /.card-body -->
+    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary"><i class="fas fa-plus fa-xs"></i> create</button>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.card -->
+    
+                
               </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="candidateTable" class="table table-bordered table-striped">
-                  <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
-                    <th>action</th>
-                  </tr>
-                  </thead>
-                  <tbody class="data">
-
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Status</th>
-                    <th>address</th>
-                    <th>cardnumber</th>
-                    <th>gender</th>
-                    <th>action</th>
-                  </tr>
-                  </tfoot>
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-          <!-- /.col -->
+          <!-- /.col-md-6 -->
         </div>
         <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
-    </section>
+      </div><!-- /.container-fluid -->
+    </div>
     <!-- /.content -->
   </div>
- 
+  <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
+    </div>
   </aside>
   <!-- /.control-sidebar -->
+
+
 </div>
 <!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
+
 <!-- jQuery -->
+
 <script src="./../assets/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="./../assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="./../assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="./../assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="./../assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="./../assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="./../assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="./../assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="./../assets/plugins/jszip/jszip.min.js"></script>
-<script src="./../assets/plugins/pdfmake/pdfmake.min.js"></script>
-<script src="./../assets/plugins/pdfmake/vfs_fonts.js"></script>
-<script src="./../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="./../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="./../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="./../assets/js/adminlte.min.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="./../assets/js/demo.js"></script>
 
-<script src="./../assets/plugins//sweetalert2/sweetalert2.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./index.js"></script>
 
 <script>
-displayData();
-authorization();
+  addNameVoteAdmin()
+  authorization();
 </script>
 
-
-
-
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 </body>
 </html>

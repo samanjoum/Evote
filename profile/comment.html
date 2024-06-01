@@ -20,7 +20,6 @@
   <link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <link rel="stylesheet" href="./main.css">
-
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="./../assets/css/base.css">
 
@@ -28,6 +27,7 @@
 <script>
   checkUath();
 </script>
+
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -38,7 +38,7 @@
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
-    
+     
     </ul>
 
  
@@ -77,16 +77,20 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul
-          class="nav nav-pills nav-sidebar flex-column sama"
+          class="nav nav-pills nav-sidebar flex-column sama "
           data-widget="treeview"
           role="menu"
           data-accordion="false"
         >
           <!-- Add icons to the links using the .nav-icon class
            with font-awesome or any other icon font library -->
-        
+           <li class="nav-item">
+            <a href="#" class="logout nav-link">
+                <i class="nav-icon far fa-image"></i>
+                <p style=" color: white; display: inline;">logout</p>
+            </a>
+        </li>
         </ul>
-      
       </nav>
       <!-- /.sidebar-menu -->
     </div>
@@ -105,7 +109,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">post</a></li>
-              <li class="breadcrumb-item active">show post</li>
+              <li class="breadcrumb-item active">comment</li>
             </ol>
           </div>
         </div>
@@ -145,7 +149,9 @@
                     </div>
                     <!-- /.post -->
 
-                  
+                    <input type="text" id="commentInput" class="text" placeholder="add a comment" style="width: 80%;">
+<button id="commentButton" class="submit">أضف تعليقك</button>
+
                     
                    
                   </div>
@@ -316,7 +322,8 @@
     </section>
     <!-- /.content -->
   </div>
-
+  <!-- /.content-wrapper -->
+ 
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
@@ -348,13 +355,10 @@
 <!-- AdminLTE for demo purposes -->
 <script src="./../assets/js/demo.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="./../assets/plugins//sweetalert2/sweetalert2.min.js"></script>
 <script src="./index.js"></script>
 
-<script>
-    authorization();
 
-  </script>
 
 
 
@@ -377,7 +381,9 @@
   });
 </script>
 <script>
-showPost()
+    showMore()
+    authorization();
+
 </script>
 
 </body>

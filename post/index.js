@@ -20,7 +20,6 @@ const runDataTable = () => {
   });
 };
 const token = localStorage.getItem("adminToken");
-
 //بجيب كل أسماءالتصويتات اللي حالتها active فقط
 const getVoteName = async () => {
   const token = localStorage.getItem("adminToken");
@@ -35,15 +34,36 @@ const getVoteName = async () => {
   // تأكد من أن المصفوفة voteNames موجودة في الكائن candidate قبل إرجاعها
   return data.candidate.voteNames;
 };
-
 //بضيف كل اسماء التصويتات على ال select
 const addNameVote = async () => {
   const voteNames = await getVoteName(); // الآن تحصل مباشرة على مصفوفة الأسماء
+  console.log(voteNames);
   const options = voteNames.map(voteName => `<option>${voteName}</option>`); // تحويل كل اسم تصويت إلى عنصر option
   const result = options.join(""); // دمج جميع العناصر option في سلسلة واحدة
   document.querySelector(".createPost").innerHTML += result; // إضافة النتيجة إلى العنصر select
 };
+//بجيب كل أسماءالتصويتات اللي حالتها active فقط
+const getallVote = async () => {
+  const token = localStorage.getItem("adminToken");
+  console.log(token);
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    "https://vote-roan.vercel.app/vote/getVoteOpen",
+    { headers }
+  );
+  console.log(data);
 
+  // تأكد من أن المصفوفة voteNames موجودة في الكائن candidate قبل إرجاعها
+  return data.votes;
+};
+//بضيف كل اسماء التصويتات على ال select
+const addNameVoteAdmin = async () => {
+  const voteNames = await getallVote(); // الآن تحصل مباشرة على مصفوفة الأسماء
+  console.log(voteNames);
+  const options = voteNames.map(voteName => `<option>${voteName.voteName}</option>`); // تحويل كل اسم تصويت إلى عنصر option
+  const result = options.join(""); // دمج جميع العناصر option في سلسلة واحدة
+  document.querySelector(".createPost").innerHTML += result; // إضافة النتيجة إلى العنصر select
+};
 //create a new post
 const addPost = document.querySelector(".submit");
 if (addPost) {
@@ -69,7 +89,12 @@ if (addPost) {
         { headers }
       );
       console.log(data);
-      alert("تمت إضافة المنشور بنجاح");
+      if(data.message == "success"){
+        Swal.fire({
+          text: "Post added seccesfully .",
+          icon: "success",
+        });
+      }
     } catch (error) {
       console.log(error);
       alert("حدث خطأ أثناء إضافة المنشور");
@@ -112,58 +137,65 @@ const displayData = async () => {
   document.querySelector(".data").innerHTML += result;
   runDataTable();
 };
-// عرض البوستات
 const showPost = async () => {
   try {
     const search = new URLSearchParams(window.location.search);
     const id = search.get("id");
     const voteData = await getPost(id);
+    console.log(voteData);
 
     const userBlock = document.querySelector(".user-block");
 
-    if (voteData.Posts && voteData.Posts.length > 0) {
+    // التحقق من أن voteData ليس undefined وأنه يحتوي على خاصية Posts
+    if (voteData && voteData.Posts && voteData.Posts.length > 0) {
       voteData.Posts.forEach((post) => {
         const postElement = document.createElement("div");
         postElement.classList.add("post");
         postElement.style.width = "80%";
 
         // عرض صورة المستخدم الذي علق
-        const userImageElement = document.createElement("img");
-        userImageElement.src = post.userId.image.secure_url;
-        userImageElement.alt = post.userId.userName;
-        userImageElement.classList.add("comment-user-image");
-        postElement.appendChild(userImageElement);
+        if (post.userId && post.userId.image && post.userId.image.secure_url) {
+          const userImageElement = document.createElement("img");
+          userImageElement.src = post.userId.image.secure_url;
+          userImageElement.alt = post.userId.userName || "User image";
+          userImageElement.classList.add("comment-user-image");
+          postElement.appendChild(userImageElement);
+        }
 
         // عرض اسم المستخدم
-        const userNameElement = document.createElement("div");
-        userNameElement.textContent = post.userId.userName;
-        userNameElement.classList.add("username");
-        postElement.appendChild(userNameElement);
+        if (post.userId && post.userId.userName) {
+          const userNameElement = document.createElement("div");
+          userNameElement.textContent = post.userId.userName;
+          userNameElement.classList.add("username");
+          postElement.appendChild(userNameElement);
+        }
 
         // عرض العنوان
-        const titleElement = document.createElement("h2");
-        titleElement.textContent = post.title;
-        postElement.appendChild(titleElement);
+        if (post.title) {
+          const titleElement = document.createElement("h2");
+          titleElement.textContent = post.title;
+          postElement.appendChild(titleElement);
+        }
 
         // عرض الكابشن
-        const captionElement = document.createElement("p");
-        captionElement.textContent = post.caption;
-        postElement.appendChild(captionElement);
+        if (post.caption) {
+          const captionElement = document.createElement("p");
+          captionElement.textContent = post.caption;
+          postElement.appendChild(captionElement);
+        }
 
+        // عرض الصورة الخاصة بالبوست إذا وجدت
         if (post.image && post.image.secure_url) {
-            // عرض الصورة الخاصة بالبوست
-        const postImageElement = document.createElement("img");
-        postImageElement.src = post.image.secure_url;
-        postImageElement.alt = post.title;
-        postImageElement.classList.add("post-image");
-        postImageElement.style.width = "100%";
-        postImageElement.style.height = "auto";
-        postElement.appendChild(postImageElement);
-      } else {
+          const postImageElement = document.createElement("img");
+          postImageElement.src = post.image.secure_url;
+          postImageElement.alt = post.title || "Post image";
+          postImageElement.classList.add("post-image");
+          postImageElement.style.width = "100%";
+          postImageElement.style.height = "auto";
+          postElement.appendChild(postImageElement);
+        } else {
           console.log("ما في صور في بوست معين");
-      }
-      
-      
+        }
 
         // إضافة البوست   
         userBlock.appendChild(postElement);
@@ -188,7 +220,20 @@ const showPost = async () => {
     console.log(error);
   }
 };
-
+const getPost = async (id) => {
+  const token = localStorage.getItem("adminToken");
+  try {
+    const { data } = await axios.get(
+      `https://vote-roan.vercel.app/Post/getPost/${id}`,
+      { headers: { Authorization: `haneen__${token}` } }
+    );
+    console.log(data); // طباعة البيانات للتحقق منها
+    return data.postvote || { Posts: [] };
+  } catch (error) {
+    console.error("Error fetching post data:", error);
+    return { Posts: [] };
+  }
+};
 //  عرض التعليقات
 const displayComments = (comments) => {
   const commentsContainer = document.querySelector(".comments-container");
@@ -202,16 +247,6 @@ const displayComments = (comments) => {
   });
 
   commentsContainer.appendChild(commentsList);
-};
-// عرض البوستات اللي خاصة بتصويت معين
-const getPost = async (id) => {
-  const token = localStorage.getItem("adminToken");
-  const { data } = await axios.get(
-    `https://vote-roan.vercel.app/Post/getPost/${id}`,
-    { headers: { Authorization: `haneen__${token}` } }
-  );
-  console.log(data);
-  return data.postvote[0];
 };
 //عرض بوست واحد و في تعليقاته
 const showMore = async () => {
@@ -349,7 +384,7 @@ if (commentButton) {
         { headers }
       );
       console.log(data);
-
+         
       // عرض التعليق الجديد
       const commentsList = document.querySelector(".comments-list");
       if (commentsList) {
@@ -364,7 +399,13 @@ if (commentButton) {
         commentsList.appendChild(newCommentItem);
       }
 
-      alert("تم إضافة التعليق بنجاح");
+      if(data.message == "success")
+        {
+          Swal.fire({
+            text: "comment added seccesfully .",
+            icon: "success",
+          });
+        }
 
       commentInput.value = '';
 
@@ -374,3 +415,268 @@ if (commentButton) {
     }
   });
 }
+const getRole = async () => {
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    `https://vote-roan.vercel.app/Admin/role`,
+    { headers }
+  );
+ 
+  return data.role;
+};
+const authorization = async () =>{
+  const role = await getRole();
+  document.querySelector(".sama").innerHTML = `
+  
+  ${role == 'SuperAdmin'?`
+  <li class="nav-item">
+      <a href="./../profile/supreAdminProfile.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>My Profile</p>
+      </a>
+    </li>
+  <li class="nav-item">
+      <a href="./../admin/create.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Add Admin</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="./../admin/index.html" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Show Admins</p>
+      </a>
+    </li>
+        <li class="nav-item">
+<a href="./../votes/create.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Add Vote</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li>
+
+<li class="nav-item">
+  <a href="./../admin/deletedAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show admin was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+
+  `:''}
+  ${role == 'Admin'?`
+
+  <li class="nav-item">
+  <a href="./../profile/adminProfile.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li>
+
+    <li class="nav-item">
+      <a href="./../admin/withdrawals.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>withdrawals Candidate</p>
+      </a>
+    </li>    <li class="nav-item">
+
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li><li class="nav-item">
+  <a href="./../candidate/create.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Add Candidate</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/index.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate</p>
+  </a>
+</li>
+  
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+ <li class="nav-item">
+  <a href="./../user/index.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show and Accept Users</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/deletedCandidate.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/voteAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Resposible</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+  `:''}
+
+
+  ${role == 'Candidate'?`
+  <li class="nav-item">
+  <a href="./../profile/profile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p> My Profile</p>
+  </a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+  
+              <li class="nav-item">
+                <a href="./../candidate/Withdrawal.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdrawal request</p>
+                </a>
+              </li>
+<li class="nav-item">
+  <a href="./../post/createPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/parVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote I participated in</p>
+  </a>
+</li>
+
+  `:''}
+
+  ${role == 'User'?`
+  <li class="nav-item">
+  <a href="./../profile/UserProfile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li> 
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+
+  
+
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../user/activeVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Voting</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/preVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Parti In</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+  `:''}
+ 
+
+
+
+
+  `;};

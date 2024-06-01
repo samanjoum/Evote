@@ -13,6 +13,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="./../assets/css/adminlte.min.css">
   <link rel="stylesheet" href="./main.css">
+  <link rel="stylesheet" href="./../assets/plugins/sweetalert2/sweetalert2.min.css">
+
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <link rel="stylesheet" href="./../assets/css/base.css">
@@ -103,7 +105,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Candidate Profile</li>
+              <li class="breadcrumb-item active">Admin Profile</li>
             </ol>
           </div>
         </div>
@@ -122,7 +124,7 @@
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
                        src=""
-                       alt="Candidate profile picture">
+                       alt="Super Admin profile picture">
                 </div>
 
                 <h3 class="profile-username text-center"></h3>
@@ -135,23 +137,8 @@
 
             <!-- About Me Box -->
             <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">The votes that I participated in</h3>
-                
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-               
-
-                <ul class="vote">
-                    
-                </ul>
-
-
-
-
-
-              </div>
+              
+              
               <!-- /.card-body -->
             </div>
             <!-- /.card -->
@@ -161,7 +148,7 @@
             <div class="card">
               <div class="card-header p-2">
                 <ul class="nav nav-pills">
-                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Posts</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Update Password</a></li>
                   <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Personal Information</a></li>
                 </ul>
               </div><!-- /.card-header -->
@@ -169,20 +156,38 @@
                 <div class="tab-content">
                   <div class="active tab-pane" id="activity">
                     <!-- Post -->
-                    <div class="post">
-                        <div class="user-block">
-                          <div class="comments-container"></div>
-  
+                    <div class="card card-primary">
+                        <div class="card-header">
+                          <h3 class="card-title">update Your Password</h3>
                         </div>
-                        <!-- /.user-block -->
-                        <p>
-                         
-                        </p>
-                       
-                        
-                       
-  
-  
+                        <!-- /.card-header -->
+                        <!-- form start -->
+                        <form class="submitPass">
+                          <div class="card-body">
+                          
+                            <div class="form-group">
+                              <label for="exampleInputEmail1">Enter Your old Password </label>
+                              <input type="password" class="form-control" id="exampleInputEmail1" name="oldPassword" placeholder="Enter old Password">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputCode">Enter Your New Password </label>
+                              <input type="password" class="form-control" id="exampleInputCode" name="newPassword" placeholder="Enter new Password">
+                            </div>
+                            <div class="form-group">
+                              <label for="exampleInputPass">Confirm Your New Password </label>
+                              <input type="password" class="form-control" id="exampleInputPass" name="Cpassword" placeholder="confirm new password">
+                            </div>
+                           
+      
+                            
+                            
+                          </div>
+                          <!-- /.card-body -->
+          
+                          <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                          </div>
+                        </form>
                       </div>
                       <!-- /.post -->
    
@@ -267,14 +272,15 @@
 <script src="./../assets/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="./../assets/js/demo.js"></script>
-<script src="./../assets/plugins//sweetalert2/sweetalert2.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="./index.js"></script>
 <script>
-    displayData()
-   displayPosts()
-   authorization();
+    displayDataAdmin();
+    getVoteAdmin();
+    authorization();
 
 </script>
+
 
 </body>
 </html>

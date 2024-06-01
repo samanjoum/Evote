@@ -26,3 +26,6 @@
     .d-none{
         display: none !important; 
     }
+    .errorr{
+      color: red;
+    }

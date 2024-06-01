@@ -45,73 +45,287 @@ if (loginForm) {
     } catch (error) {
       if (error.response.status == 400) {
         console.log("Email or Password is not correct ");
+      
+        document.querySelector('.errorr').innerHTML+="Email or Password is not correct";
       }
     } finally {
       document.querySelector(".overlay").classList.toggle("d-none");
     }
   };
 }
-//add user
-const addUser = document.querySelector(".submit");
-if (addUser) {
-    addUser.addEventListener("submit", async function (e) {
-    const elements = e.target.elements;
-    const token = localStorage.getItem("adminToken");
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("userName", elements["userName"].value);
-    formData.append("email", elements["email"].value);
-    formData.append("password", elements["password"].value);
-    formData.append("Cpassword", elements["Cpassword"].value);
-    formData.append("phone", elements["phone"].value);
-    formData.append("role", "User");
-    formData.append("address", elements["address"].value);
-    formData.append("cardnumber", elements["cardnumber"].value);
-    formData.append("gender", elements["gender"].value);
-    formData.append("image", elements["image"].files[0]);
-    try{
-    const headers = { Authorization: `haneen__${token}` };
-    const { data } = await axios.post(
-      `https://vote-roan.vercel.app/auth/signup`,
-      formData,
-      { headers }
-    );
-
-    if(data.message=='success'){
-      Swal.fire({
-        text: "طلبك قيد المعالجة ",
-        icon: "success",
-      });
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input=> input.value='');
-  const radios = document.querySelectorAll('[type="radio"]');
-      radios.forEach(input=> input.checked=false)
+const getRole = async () => {
+  const token = localStorage.getItem("adminToken");
+  const headers = { Authorization: `haneen__${token}` };
+  const { data } = await axios.get(
+    `https://vote-roan.vercel.app/Admin/role`,
+    { headers }
+  );
  
-    }
-  }
-  catch(error) {
-    let errorArray = error.response.data.validationError;
-    if (errorArray) {
-      let listItem = "";
-      for (let i = 0; i < Math.min(errorArray.length, 10); i++) {
-        const errorMessage = errorArray[i].message;
-        listItem += "<li>" + errorMessage + "</li>";
-      }
+  return data.role;
+};
+//auth#2
+const authorization = async () =>{
+  const role = await getRole();
+  document.querySelector(".sama").innerHTML = `
   
-      document.querySelector(".err").classList.remove('d-none');
-      document.querySelector(".err").innerHTML += listItem;
-    }
-  }
-  
-  });
+  ${role == 'SuperAdmin'?`
+  <li class="nav-item">
+      <a href="./../profile/supreAdminProfile.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>My Profile</p>
+      </a>
+    </li>
+  <li class="nav-item">
+      <a href="./../admin/create.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Add Admin</p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a href="./../admin/index.html" class="nav-link">
+        <i class="far fa-circle nav-icon"></i>
+        <p>Show Admins</p>
+      </a>
+    </li>
+        <li class="nav-item">
+<a href="./../votes/create.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Add Vote</p>
+</a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li>
 
-}
+<li class="nav-item">
+  <a href="./../admin/deletedAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show admin was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+
+  `:''}
+  ${role == 'Admin'?`
+
+  <li class="nav-item">
+  <a href="./../profile/adminProfile.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li>
+
+    <li class="nav-item">
+      <a href="./../admin/withdrawals.html" class="nav-link active">
+        <i class="far fa-circle nav-icon"></i>
+        <p>withdrawals Candidate</p>
+      </a>
+    </li>    <li class="nav-item">
+
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+</li><li class="nav-item">
+  <a href="./../candidate/create.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Add Candidate</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/index.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate</p>
+  </a>
+</li>
+  
+<li class="nav-item">
+  <a href="./../post/addPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+ <li class="nav-item">
+  <a href="./../user/index.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show and Accept Users</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/deletedCandidate.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate was Deleted and restore</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/voteAdmin.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Resposible</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+  `:''}
+
+
+  ${role == 'Candidate'?`
+  <li class="nav-item">
+  <a href="./../profile/profile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p> My Profile</p>
+  </a>
+</li>
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+  
+              <li class="nav-item">
+                <a href="./../candidate/Withdrawal.html" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Withdrawal request</p>
+                </a>
+              </li>
+<li class="nav-item">
+  <a href="./../post/createPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>add Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../candidate/parVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote I participated in</p>
+  </a>
+</li>
+
+  `:''}
+
+  ${role == 'User'?`
+  <li class="nav-item">
+  <a href="./../profile/UserProfile.html" class="nav-link">
+    <i class="far fa-circle nav-icon"></i>
+    <p>My Profile</p>
+  </a>
+</li> 
+<li class="nav-item">
+<a href="./../votes/index.html" class="nav-link">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Show Vote</p>
+</a>
+</li>   
+<li class="nav-item">
+<a href="./../votes/result.html" class="nav-link active">
+  <i class="far fa-circle nav-icon"></i>
+  <p>Result Vote</p>
+</a>
+
+
+  
+
+<li class="nav-item">
+  <a href="./../post/discussion.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Post</p>
+  </a>
+</li>
+
+<li class="nav-item">
+  <a href="./../user/activeVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Voting</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../votes/preVote.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Vote Parti In</p>
+  </a>
+</li>
+<li class="nav-item">
+  <a href="./../profile/candNameAndPost.html" class="nav-link active">
+    <i class="far fa-circle nav-icon"></i>
+    <p>Show Candidate and The Post</p>
+  </a>
+</li>
+
+  `:''}
+ 
+
+
+
+
+  `;};
 //getData user
 const getData = async () => {
     try{
     const headers = { Authorization: `haneen__${token}` };
     const { data } = await axios.get(
-      "https://vote-roan.vercel.app/Admin/getUsers",
+      "https://vote-roan.vercel.app/Admin/getallUsers",
       { headers }
     );
     console.log(data);
@@ -138,7 +352,7 @@ const displayData = async () => {
           <td>${d.gender}</td>
           <td class=" align-items-center justify-content-center" style="column-gap=10px">
        
-          <svg width="50" height="20"  onclick="updateStatus('${d._id}', '${d.statuse}', event)" 
+          <svg style="cursor:pointer"  width="50" height="20"  onclick="updateStatus('${d._id}', '${d.statuse}', event)" 
           xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M441 58.9L453.1 71c9.4 9.4 9.4 24.6 0 33.9L424 134.1 377.9 88 407 58.9c9.4-9.4 24.6-9.4 33.9 0zM209.8 256.2L344 121.9 390.1 168 255.8 302.2c-2.9 2.9-6.5 5-10.4 6.1l-58.5 16.7 16.7-58.5c1.1-3.9 3.2-7.5 6.1-10.4zM373.1 25L175.8 222.2c-8.7 8.7-15 19.4-18.3 31.1l-28.6 100c-2.4 8.4-.1 17.4 6.1 23.6s15.2 8.5 23.6 6.1l100-28.6c11.8-3.4 22.5-9.7 31.1-18.3L487 138.9c28.1-28.1 28.1-73.7 0-101.8L474.9 25C446.8-3.1 401.2-3.1 373.1 25zM88 64C39.4 64 0 103.4 0 152V424c0 48.6 39.4 88 88 88H360c48.6 0 88-39.4 88-88V312c0-13.3-10.7-24-24-24s-24 10.7-24 24V424c0 22.1-17.9 40-40 40H88c-22.1 0-40-17.9-40-40V152c0-22.1 17.9-40 40-40H200c13.3 0 24-10.7 24-24s-10.7-24-24-24H88z"/></svg>
 
               
@@ -168,6 +382,9 @@ const displayData = async () => {
             body,
             { headers }
         );
+        if(data.message == "success"){
+          location.href="./index.html";
+        }
         console.log(data);
         console.log("User status updated successfully:", data);
     } catch (error) {
@@ -180,11 +397,11 @@ const getAllVotes = async () => {
     console.log(token);
     const headers = { Authorization: `haneen__${token}` };
     const { data } = await axios.get(
-      "https://vote-roan.vercel.app/vote/getVoteOpen",
+      "https://vote-roan.vercel.app/vote/getUserinVote",
       { headers }
     );
     console.log(data);
-    return data.votes;
+    return data.subvotes;
 };
   const displayAciveVote = async () => {
     const data = await getAllVotes();
